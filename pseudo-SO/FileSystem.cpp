@@ -31,16 +31,15 @@ void FileSystem::ReadFile(std::string fname)
 	this->disk = vstrings;
 }
 
-
+//Transferir dados para outros módulos
 void FileSystem::DataBUS()
 {
 	for (auto it : this->disk)
 		_kernel.Run("load", it);
 }
 
-/* Apenas para testes
+//Apenas para testes
 std::vector<std::string> FileSystem::GetDataFromDisk()
 {
 	return this->disk;
 }
-*/

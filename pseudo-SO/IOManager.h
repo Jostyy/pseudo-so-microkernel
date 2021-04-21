@@ -6,13 +6,17 @@
 
 class IOManager
 {
+private:
+
 	Kernel& _kernel;
 	std::vector<std::string> data;
+
+	void GetDataFromBUS(std::string);
+	void ScheduleDisk();
+
 public:
 
 	IOManager(Kernel&);
-	void GetData(std::string);
-	void ScheduleDisk();
 };
 
 #endif

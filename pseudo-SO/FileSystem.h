@@ -6,14 +6,18 @@
 
 class FileSystem
 {
+private:
+
 	Kernel& _kernel;
 	std::vector<std::string> disk;
+
+	void ReadFile(std::string);
+	void DataBUS();
+
 public:
 
 	FileSystem(Kernel&);
-	void ReadFile(std::string);
-	void DataBUS();
-	//std::vector<std::string> GetDataFromDisk(); <- apenas para testes
+	std::vector<std::string> GetDataFromDisk(); 
 };
 
 #endif

@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 	Kernel kernel;
 	FileSystem fileSystem(kernel);
 
-	/*
-	*How to?
+	
+	/*How to?
 	kernel.Run("read",argv[2]);											<- usar kernel como intermediário
 	std::vector<std::string> content = fileSystem.GetDataFromDisk();	<- apenas para testes
 	for (auto it : content)

@@ -4,13 +4,17 @@
 
 class MemoryManager
 {
+private:
+
 	Kernel& _kernel;
 	std::vector<std::string> data;
+
+	void GetDataFromBUS(std::string);
+	void PaginateMemory(std::string);
+
 public:
 
 	MemoryManager(Kernel&);
-	void GetData(std::string);
-	void PaginateMemory(std::string);
 };
 
 #endif

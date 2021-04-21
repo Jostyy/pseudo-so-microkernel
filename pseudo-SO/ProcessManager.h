@@ -6,15 +6,18 @@
 
 class ProcessManager
 {
+private:
+
 	Kernel& _kernel;
 	std::vector<std::string> data;
 	//std::vector<std::tuple<int, int>> pair;
 
+	void GetDataFromBUS(std::string);
+	void ScheduleProcess();
+
 public:
 
 	ProcessManager(Kernel&);
-	void GetData(std::string);
-	void ScheduleProcess();
 };
 
 #endif
