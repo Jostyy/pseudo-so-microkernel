@@ -1,5 +1,5 @@
 /*
-Jônatas Rocha de Paiva - 140177043; Luiz Duarte; Matheus Oliveira Braga; Pedro Egler
+Jônatas Rocha de Paiva - 140177043; Luiz Duarte - 140151958; Matheus Oliveira Braga; Pedro Egler
 Programa feito baseado em um MicroKernel, conforme: https://4.bp.blogspot.com/-HlUFhj9VkbM/VQxj_z9HDeI/AAAAAAAAARc/2R28443FCGM/s1600/compara%C3%A7%C3%A3o%2Bde%2Bmodelos%2Bde%2Bkernels%2Bmonol%C3%ADtico%2Be%2Bmicro.png
 */
 
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	Kernel kernel;
 	FileSystem fileSystem(kernel);
 
-	
+
 	/*How to?
 	kernel.Run("read",argv[2]);											<- usar kernel como intermediário
 	std::vector<std::string> content = fileSystem.GetDataFromDisk();	<- apenas para testes
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 			//IOManager ioManager(kernel);
 			//kernel.Run("", argv[2]);
 			break;
-		default: 
+		default:
 			std::cout << "Invalid option: must be from 1 to 3!" << std::endl;
 			break;
 		}
@@ -60,14 +60,14 @@ int main(int argc, char* argv[])
 	for (std::string a; iss >> a; )
 		result.push_back(a);
 	std::cout << result[0] << std::endl;
-    std::cout << "Hello World!\n"; 
+    std::cout << "Hello World!\n";
 	*/
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
+// Tips for Getting Started:
 //   1. Use the Solution Explorer window to add/manage files
 //   2. Use the Team Explorer window to connect to source control
 //   3. Use the Output window to see build output and other messages
