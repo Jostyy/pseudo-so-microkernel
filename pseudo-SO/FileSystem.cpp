@@ -4,7 +4,7 @@
 FileSystem::FileSystem(Kernel& kernel) : _kernel(kernel)
 {
 	_kernel.Load("read", [this](std::string const& str) { return this->ReadFile(str); });
-	_kernel.Load("bus", [this](std::string const&) { return this->DataBUS(); });
+	_kernel.Load("bus", [this](std::string const& str) { return this->DataBUS(); });
 };
 
 void FileSystem::ReadFile(std::string fname)

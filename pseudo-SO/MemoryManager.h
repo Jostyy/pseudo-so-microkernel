@@ -1,6 +1,8 @@
 #ifndef MemoryManager_h
 #define MemoryManager_h
 #include "Kernel.h"
+#include <iostream>
+#include <algorithm>
 
 class MemoryManager
 {
@@ -10,7 +12,9 @@ private:
 	std::vector<std::string> data;
 
 	void GetDataFromBUS(std::string);
-	void PaginateMemory(std::string);
+	void PaginateMemoryFIFO();
+	void PaginateMemorySC();
+	void PaginateMemoryLRU();
 
 public:
 

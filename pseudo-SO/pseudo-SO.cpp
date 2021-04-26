@@ -1,5 +1,5 @@
 /*
-Jônatas Rocha de Paiva - 140177043; Luiz Duarte; Matheus Oliveira Braga; Pedro Egler
+Jônatas Rocha de Paiva - 140177043; Luiz Duarte - 140151958; Matheus Oliveira Braga; Pedro Egler
 Programa feito baseado em um MicroKernel, conforme: https://4.bp.blogspot.com/-HlUFhj9VkbM/VQxj_z9HDeI/AAAAAAAAARc/2R28443FCGM/s1600/compara%C3%A7%C3%A3o%2Bde%2Bmodelos%2Bde%2Bkernels%2Bmonol%C3%ADtico%2Be%2Bmicro.png
 */
 
@@ -16,10 +16,22 @@ int main(int argc, char* argv[])
 {
 	Kernel kernel;
 	FileSystem fileSystem(kernel);
+	MemoryManager memoryManager(kernel);
 
 	
+	kernel.Run("read", argv[2]);
+	kernel.Run("bus");
+	kernel.Run("paginate");
+	
+	/*
+	MemoryManager memoryManager(kernel);
+	kernel.Run("load");
+	std::vector<std::string> content = memoryManager.GetDataFromDisk();
+	for (auto it : content)
+		std::cout << it << std::endl;
 	/*How to?
 	kernel.Run("read",argv[2]);											<- usar kernel como intermediário
+	kernel.Run("bus");
 	std::vector<std::string> content = fileSystem.GetDataFromDisk();	<- apenas para testes
 	for (auto it : content)
 		std::cout << it << std::endl;
