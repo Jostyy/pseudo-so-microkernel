@@ -5,9 +5,9 @@
 MemoryManager::MemoryManager(Kernel& kernel) : _kernel(kernel)
 {
 	_kernel.Load("load", [this](std::string const& str) { return this->GetDataFromBUS(str); });
-	_kernel.Load("paginate", [this](std::string const& str) { return this->PaginateMemoryFIFO(); });
-	_kernel.Load("paginate", [this](std::string const& str) { return this->PaginateMemorySC(); });
-	_kernel.Load("paginate", [this](std::string const& str) { return this->PaginateMemoryLRU(); });
+	_kernel.Load("paginate memory", [this](std::string const& ) { return this->PaginateMemoryFIFO(); });
+	_kernel.Load("paginate memory", [this](std::string const& ) { return this->PaginateMemorySC(); });
+	_kernel.Load("paginate memory", [this](std::string const& ) { return this->PaginateMemoryLRU(); });
 };
 //TODO: O gerenciador de memória deve garantir que um processo não acesse as regiões de memória de um outro
 //processo, e que o algoritmo de substituição de página seja adequadamente usado

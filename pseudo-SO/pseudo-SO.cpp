@@ -16,41 +16,31 @@ int main(int argc, char* argv[])
 {
 	Kernel kernel;
 	FileSystem fileSystem(kernel);
+	ProcessManager processManager(kernel);
 	MemoryManager memoryManager(kernel);
-
-	
-	kernel.Run("read", argv[2]);
-	kernel.Run("bus");
-	kernel.Run("paginate");
-	
-	/*
-	MemoryManager memoryManager(kernel);
-	kernel.Run("load");
-	std::vector<std::string> content = memoryManager.GetDataFromDisk();
-	for (auto it : content)
-		std::cout << it << std::endl;
-	/*How to?
-	kernel.Run("read",argv[2]);											<- usar kernel como intermediário
-	kernel.Run("bus");
-	std::vector<std::string> content = fileSystem.GetDataFromDisk();	<- apenas para testes
-	for (auto it : content)
-		std::cout << it << std::endl;
-	*/
+	IOManager ioManager(kernel);
 
 	try
 	{
 		switch (CheckArgs::IsValid(argc, argv)) {
 		case 1:
-			//ProcessManager processManager(kernel);
-			//kernel.Run("", argv[2]);
+			/*
+			kernel.Run("read", argv[2]);
+			kernel.Run("bus");
+			kernel.Run("schedule process");
+			*/
 			break;
 		case 2:
-			//MemoryManager memoryManager(kernel);
-			//kernel.Run("", argv[2]);
+			kernel.Run("read", argv[2]);
+			kernel.Run("bus");
+			kernel.Run("paginate memory");
 			break;
 		case 3:
-			//IOManager ioManager(kernel);
-			//kernel.Run("", argv[2]);
+			/*
+			kernel.Run("read", argv[2]);
+			kernel.Run("bus");
+			kernel.Run("schedule disk");
+			*/
 			break;
 		default: 
 			std::cout << "Invalid option: must be from 1 to 3!" << std::endl;
@@ -64,16 +54,6 @@ int main(int argc, char* argv[])
 	}
 
 	return 0;
-	/*
-	std::string a = "10 20";
-	std::string s = "split on    whitespace   ";
-	std::vector<std::string> result;
-	std::istringstream iss(a);
-	for (std::string a; iss >> a; )
-		result.push_back(a);
-	std::cout << result[0] << std::endl;
-    std::cout << "Hello World!\n"; 
-	*/
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

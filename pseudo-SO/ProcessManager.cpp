@@ -4,7 +4,7 @@
 ProcessManager::ProcessManager(Kernel& kernel) : _kernel(kernel)
 {
 	_kernel.Load("load", [this](std::string const& str) { return this->GetDataFromBUS(str); });
-	_kernel.Load("start", [this](std::string const&) { return this->ScheduleProcess(); });
+	_kernel.Load("schedule process", [this](std::string const&) { return this->ScheduleProcess(); });
 };
 
 //TODO: gerenciador de processos deve ser capaz de aplicar o algoritmo
