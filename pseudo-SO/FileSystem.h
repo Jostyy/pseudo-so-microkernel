@@ -3,6 +3,7 @@
 #include "Kernel.h"
 #include <fstream>
 #include <sstream>
+#include <iterator>
 
 class FileSystem
 {

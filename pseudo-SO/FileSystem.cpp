@@ -1,6 +1,7 @@
 #include "FileSystem.h"
 
-//Instancia a classe para o kernel passando a referência de suas funções
+
+//Instancia a classe para o kernel passando a referï¿½ncia de suas funï¿½ï¿½es
 FileSystem::FileSystem(Kernel& kernel) : _kernel(kernel)
 {
 	_kernel.Load("read", [this](std::string const& str) { return this->ReadFile(str); });
@@ -31,7 +32,7 @@ void FileSystem::ReadFile(std::string fname)
 	this->disk = vstrings;
 }
 
-//Transferir dados para outros módulos
+//Transferir dados para outros mï¿½dulos
 void FileSystem::DataBUS()
 {
 	for (auto it : this->disk)

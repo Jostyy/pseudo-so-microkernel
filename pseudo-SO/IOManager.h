@@ -19,6 +19,7 @@ private:
 	void ScheduleDiskFCFS();
 	void ScheduleDiskSSF();
 	void ScheduleDiskSCAN();
+	void Setup();
 
 public:
 

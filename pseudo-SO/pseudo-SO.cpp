@@ -1,5 +1,5 @@
 /*
-Jônatas Rocha de Paiva - 140177043; Luiz Duarte - 140151958; Matheus Oliveira Braga; Pedro Egler
+Jï¿½natas Rocha de Paiva - 140177043; Luiz Duarte - 140151958; Matheus Oliveira Braga; Pedro Egler
 Programa feito baseado em um MicroKernel, conforme: https://4.bp.blogspot.com/-HlUFhj9VkbM/VQxj_z9HDeI/AAAAAAAAARc/2R28443FCGM/s1600/compara%C3%A7%C3%A3o%2Bde%2Bmodelos%2Bde%2Bkernels%2Bmonol%C3%ADtico%2Be%2Bmicro.png
 */
 
@@ -36,11 +36,11 @@ int main(int argc, char* argv[])
 			kernel.Run("paginate memory");
 			break;
 		case 3:
-			/*
 			kernel.Run("read", argv[2]);
 			kernel.Run("bus");
-			kernel.Run("schedule disk");
-			*/
+			kernel.Run("schedule disk FCFS");
+			kernel.Run("schedule disk SSF");
+			kernel.Run("schedule disk SCAN");
 			break;
 		default: 
 			std::cout << "Invalid option: must be from 1 to 3!" << std::endl;

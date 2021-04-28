@@ -1,7 +1,7 @@
 #include "MemoryManager.h"
 
 
-//Instancia a classe para o kernel passando a referência de suas funções
+//Instancia a classe para o kernel passando a referï¿½ncia de suas funï¿½ï¿½es
 MemoryManager::MemoryManager(Kernel& kernel) : _kernel(kernel)
 {
 	_kernel.Load("load", [this](std::string const& str) { return this->GetDataFromBUS(str); });
@@ -9,11 +9,12 @@ MemoryManager::MemoryManager(Kernel& kernel) : _kernel(kernel)
 	_kernel.Load("paginate memory", [this](std::string const& ) { return this->PaginateMemorySC(); });
 	_kernel.Load("paginate memory", [this](std::string const& ) { return this->PaginateMemoryLRU(); });
 };
-//TODO: O gerenciador de memória deve garantir que um processo não acesse as regiões de memória de um outro
-//processo, e que o algoritmo de substituição de página seja adequadamente usado
+//TODO: O gerenciador de memï¿½ria deve garantir que um processo nï¿½o acesse as regiï¿½es de memï¿½ria de um outro
+//processo, e que o algoritmo de substituiï¿½ï¿½o de pï¿½gina seja adequadamente usado
 void MemoryManager::GetDataFromBUS(std::string str)
 {
 	data.push_back(str);
+	
 }
 
 void MemoryManager::PaginateMemoryFIFO()
