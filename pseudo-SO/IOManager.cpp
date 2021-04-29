@@ -4,12 +4,11 @@
 IOManager::IOManager(Kernel& kernel) : _kernel(kernel)
 {
 	 _kernel.Load("load", [this](std::string const& str) { return this->GetDataFromBUS(str); });
-	_kernel.Load("schedule disk FCFS", [this](std::string const&) { return this->ScheduleDiskFCFS(); });
-	_kernel.Load("schedule disk SSF", [this](std::string const&) { return this->ScheduleDiskSSF(); });
-	_kernel.Load("schedule disk SCAN", [this](std::string const&) { return this->ScheduleDiskSCAN(); });
+	_kernel.Load("schedule disk", [this](std::string const&) { return this->ScheduleDiskFCFS(); });
+	_kernel.Load("schedule disk", [this](std::string const&) { return this->ScheduleDiskSSF(); });
+	_kernel.Load("schedule disk", [this](std::string const&) { return this->ScheduleDiskSCAN(); });
 };
-//TODO: o gerenciador de entrada/saída deve ser responsável
-//por administrar o algoritmo especificado para a busca em disco
+
 void IOManager::GetDataFromBUS(std::string str)
 {
 	rawData.push_back(str);

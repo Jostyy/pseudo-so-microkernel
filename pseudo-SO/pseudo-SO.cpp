@@ -38,9 +38,7 @@ int main(int argc, char* argv[])
 		case 3:
 			kernel.Run("read", argv[2]);
 			kernel.Run("bus");
-			kernel.Run("schedule disk FCFS");
-			kernel.Run("schedule disk SSF");
-			kernel.Run("schedule disk SCAN");
+			kernel.Run("schedule disk");
 			break;
 		default: 
 			std::cout << "Invalid option: must be from 1 to 3!" << std::endl;
