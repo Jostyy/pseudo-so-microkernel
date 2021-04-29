@@ -16,25 +16,18 @@ void MemoryManager::GetDataFromBUS(std::string str)
 	
 }
 
-struct frame
-{
-	int page;
-	bool bitR = false;
-	int countR = 1;
-};
-
 void MemoryManager::PaginateMemoryFIFO()
 {
 	
 	int fifo = 0, pagefault = 0;
 	int aux = std::atoi(data.at(0).c_str());
 
-	std::vector<int> frames(aux, 0);
+	std::vector<int> queue(aux, 0);
 
 	for (int i = 1; i<data.size(); i++)
 	{
-		if ((std::find(frames.begin(), frames.end(), std::atoi(data.at(i).c_str()))) == frames.end()) {
-			frames[fifo] = std::atoi(data.at(i).c_str());
+		if ((std::find(queue.begin(), queue.end(), std::atoi(data.at(i).c_str()))) == queue.end()) {
+			queue[fifo] = std::atoi(data.at(i).c_str());
 			fifo = (fifo + 1) % aux;
 			pagefault++;
 		}
@@ -50,58 +43,51 @@ void MemoryManager::PaginateMemorySC()
 	int max = std::atoi(data.at(0).c_str());
 	int aux;
 	std::vector<int> mem(max, 0);
-	std::vector<frame> frames;
+	std::vector<frame> queue;
 	int index;
-	bool found;
-	//std::vector<int> bitR;
-	/*
-	const auto p = std::find_if(frames.begin(), frames.end(),s
-		[](const frame& x) { return x.page == 1 });
-	if (p != frames.end()) frames.erase(p);
 
-	std::cout << "asd " << frames[0].page << std::endl;
-	*/
 	
 	for (int i = 1; i < data.size(); i++)
 	{
-		found = false;
 		aux = std::atoi(data.at(i).c_str());
-		const auto p = std::find_if(frames.begin(), frames.end(),			//Iterador para achar frame em que page == aux
+		const auto p = std::find_if(queue.begin(), queue.end(),			//Lambda gera Iterador para achar na fila uma página em que page == aux
 			[aux](const frame& f) { return f.page == aux; });
-		const auto r = std::find_if(frames.begin(), frames.end(),			//Iterador para achar frame em que birR == false
+		const auto r = std::find_if(queue.begin(), queue.end(),			//Lambda gera Iterador para achar na fila uma página em que bitR == false
 			[aux](const frame& f) { return f.bitR == false; });
-		index = r - frames.begin() - 1;
-		for (auto it = mem.begin(); it != mem.end(); it++)
-			std::cout << *it << std::endl;
-		if ((std::find(mem.begin(), mem.end(), aux)) == mem.end())
+		index = r - queue.begin() - 1;
+
+		if ((std::find(mem.begin(), mem.end(), aux)) == mem.end())			//Página não está em memória
 		{
-			if (p != frames.end())
+			if (p != queue.end())											//Página está na fila
 			{
-				if (frames.at(index).countR++ == 3)
+				if (queue.at(index).countR++ == 3)							//Incrementa contador de referência e checa
 				{
-					frames.at(index).bitR = false;
+					queue.at(index).bitR = false;							//Se for igual a 3 zera bit R
 				}
 			}
 			else
 			{
-				if (frames.size() == max)
+				if (queue.size() == max)									//Checa se fila preenchida
 				{
 					
-					for (int j = 0; j <= max; j++)
+					for (int j = 0; j <= max; j++)							//Percorre fila
 					{
-						auto it = frames.begin();
-						if (it->bitR == true)
+						auto it = queue.begin();							//Ponteiro para o inicio da fila
+						if (it->bitR == true)								//Checa se página foi referenciada
 						{
-							frame f{ it->page, false, it->countR };
-							frames.erase(it);
-							frames.push_back(f);
+
+							frame f{ it->page, false, (it->countR) };		//Cópia da página zerando Bit R
+							queue.erase(it);								//Exclui página
+							queue.push_back(f);								//joga pro final da lista
 						}
-						else
+						else												//Página não foi referenciada
 						{
-							mem.at(std::distance(mem.begin(), std::find(mem.begin(), mem.end(), it->page))) = aux;
-							frames.erase(frames.begin());
-							frame f{ aux, true };
-							frames.push_back(f);
+							mem.at(std::distance(							//Procura posição da página antiga na memória
+								mem.begin(), std::find(mem.begin(),			
+									mem.end(), it->page))) = aux;			//Coloca nova página no lugar
+							queue.erase(queue.begin());						//Remove página antiga da fila
+							frame f{ aux, true, 1 };
+							queue.push_back(f);								//Coloca página nova no final da fila
 							break;
 						}
 					}		
@@ -109,25 +95,25 @@ void MemoryManager::PaginateMemorySC()
 				else
 				{
 					frame f{ std::atoi(data.at(i).c_str()), true};
-					frames.push_back(f);
-					mem[frames.size() - 1] = aux;
+					queue.push_back(f);
+					mem[queue.size() - 1] = aux;
 				}
 			}
 			pagefault++;
 		}
-		else
+		else															//Página em Memória
 		{
-			if (p != frames.end())
+			if (p != queue.end())										//Página está na fila
 			{
-				if (frames.at(p - frames.begin()).countR++ == 3)
+				if (queue.at(p - queue.begin()).countR++ == 3)			//Incrementa contador de referência e checa
 				{
-					frames.at(p - frames.begin()).bitR = false;
+					queue.at(p - queue.begin()).bitR = false;			//Se for igual a 3 zera bit R
 				}
 			}
-			else
+			else														//Página não está na fila
 			{
-				frame f{ std::atoi(data.at(i).c_str()), true };
-				frames.push_back(f);
+				frame f{ std::atoi(data.at(i).c_str()), true, 1 };			
+				queue.push_back(f);										//Coloca página no final da fila
 			}
 		}
 	}
