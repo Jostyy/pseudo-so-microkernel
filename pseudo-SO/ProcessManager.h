@@ -13,7 +13,7 @@ private:
 	//std::vector<std::tuple<int, int>> pair;
 
 	void GetDataFromBUS(std::string);
-	void ScheduleProcess();
+	void ScheduleProcessFIFO();
 
 public:
 
