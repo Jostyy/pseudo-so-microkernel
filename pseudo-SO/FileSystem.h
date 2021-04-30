@@ -18,7 +18,6 @@ private:
 public:
 
 	FileSystem(Kernel&);
-	std::vector<std::string> GetDataFromDisk(); 
 };
 
 #endif

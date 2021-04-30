@@ -8,6 +8,7 @@ FileSystem::FileSystem(Kernel& kernel) : _kernel(kernel)
 	_kernel.Load("bus", [this](std::string const& str) { return this->DataBUS(); });
 };
 
+//Ler Arquivo
 void FileSystem::ReadFile(std::string fname)
 {
 	std::ifstream file(fname, std::ios::binary | std::ios::ate);
@@ -39,8 +40,3 @@ void FileSystem::DataBUS()
 		_kernel.Run("load", it);
 }
 
-//Apenas para testes
-std::vector<std::string> FileSystem::GetDataFromDisk()
-{
-	return this->disk;
-}
