@@ -14,6 +14,8 @@ private:
 
 	void GetDataFromBUS(std::string);
 	void ScheduleProcessFIFO();
+	void ScheduleProcessSJF();
+	void ScheduleProcessRR();
 
 public:
 
