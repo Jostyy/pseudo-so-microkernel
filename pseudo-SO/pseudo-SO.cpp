@@ -1,5 +1,5 @@
 /*
-J�natas Rocha de Paiva - 140177043; Luiz Duarte - 140151958; Matheus Oliveira Braga; Pedro Egler
+J�natas Rocha de Paiva - 140177043; Luiz Duarte - 140151958; Matheus Oliveira Braga - 140155571; Pedro Egler
 Programa feito baseado em um MicroKernel, conforme: https://4.bp.blogspot.com/-HlUFhj9VkbM/VQxj_z9HDeI/AAAAAAAAARc/2R28443FCGM/s1600/compara%C3%A7%C3%A3o%2Bde%2Bmodelos%2Bde%2Bkernels%2Bmonol%C3%ADtico%2Be%2Bmicro.png
 */
 
@@ -24,11 +24,9 @@ int main(int argc, char* argv[])
 	{
 		switch (CheckArgs::IsValid(argc, argv)) {
 		case 1:
-			/*
 			kernel.Run("read", argv[2]);
 			kernel.Run("bus");
 			kernel.Run("schedule process");
-			*/
 			break;
 		case 2:
 			kernel.Run("read", argv[2]);
