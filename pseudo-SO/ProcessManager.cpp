@@ -44,7 +44,7 @@ void ProcessManager::ScheduleProcessFIFO()
 	map<int, int>::iterator min;
 	while(!arrival.empty()){
 		min = min_element(arrival.begin(), arrival.end(),		// extract the address of the minimum value from the map
-			[](const auto& l, const auto& r) { return l.second < r.second; });
+			[](decltype(arrival)::value_type& l, decltype(arrival)::value_type& r) { return l.second < r.second; });
 		if(min->second <= total_exec){		// check if minimum proccess has arrived 
 			t_wait = total_exec - min->second;
 			aux = aux + t_wait + exec[min->first];
@@ -95,7 +95,7 @@ void ProcessManager::ScheduleProcessSJF()
 		}
 		if(!aux_map.empty()){
 			min = min_element(aux_map.begin(), aux_map.end(),		// extract the address of the minimum value from the map
-				[](const auto& l, const auto& r) { return l.second < r.second; });
+				[](decltype(arrival)::value_type& l, decltype(arrival)::value_type& r) { return l.second < r.second; });
 			t_wait = total_exec - arrival[min->first];
 			aux = aux + t_wait + min->second;
 			aux2 = aux2 + t_wait;
@@ -137,7 +137,7 @@ void ProcessManager::ScheduleProcessRR()
 	}
 
 	aux4 = accumulate(arrival.begin(), arrival.end(), 0,		// sum of all arrival times
-		[](const int previous, const auto& element){ return previous + element.second; });
+		[](const int previous, decltype(arrival)::value_type& element){ return previous + element.second; });
 
 	map<int, int>::iterator it;
 	vector<int> aux_map;
@@ -198,13 +198,13 @@ void ProcessManager::ScheduleProcessRR()
 	output.close();
 
 	aux = accumulate(curr_exec_time.begin(), curr_exec_time.end(), 0,
-		[](const int previous, const auto& element){ return previous + element.second; });
+		[](const int previous, decltype(arrival)::value_type& element){ return previous + element.second; });
 
 	aux2 = accumulate(wait.begin(), wait.end(), 0,
-		[](const int previous, const auto& element){ return previous + element.second; });
+		[](const int previous, decltype(arrival)::value_type& element){ return previous + element.second; });
 
 	aux3 = accumulate(first_exec.begin(), first_exec.end(), 0,
-		[](const int previous, const auto& element){ return previous + element.second; });
+		[](const int previous, decltype(arrival)::value_type& element){ return previous + element.second; });
 
 	aux = aux + aux2;
 

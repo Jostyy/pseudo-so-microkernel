@@ -1,22 +1,22 @@
 all: pseudoso
 
 FileSystem.o:
-	g++ -g -c -std=c++14 FileSystem.cpp
+	g++ -g -c -std=c++11 FileSystem.cpp
 
 CheckArgs.o:
-	g++ -g -c -std=c++14 CheckArgs.cpp
+	g++ -g -c -std=c++11 CheckArgs.cpp
 
 IOManager.o:
-	g++ -g -c -std=c++14 IOManager.cpp
+	g++ -g -c -std=c++11 IOManager.cpp
 
 ProcessManager.o: 
-	g++ -g -c -std=c++14 ProcessManager.cpp
+	g++ -g -c -std=c++11 ProcessManager.cpp
 
 Kernel.o: 
-	g++ -g -c -std=c++14 Kernel.cpp
+	g++ -g -c -std=c++11 Kernel.cpp
 
 MemoryManager.o: 
-	g++ -g -c -std=c++14 MemoryManager.cpp
+	g++ -g -c -std=c++11 MemoryManager.cpp
 
 pseudoso: FileSystem.o CheckArgs.o IOManager.o ProcessManager.o Kernel.o MemoryManager.o pseudo-SO.cpp
 	g++ -Wall -o pseudoso FileSystem.o CheckArgs.o IOManager.o ProcessManager.o Kernel.o MemoryManager.o pseudo-SO.cpp
