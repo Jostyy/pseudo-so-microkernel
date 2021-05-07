@@ -25,6 +25,5 @@ struct frame
 {
 	int page;
 	bool bitR;
-	int countR;
 };
 #endif

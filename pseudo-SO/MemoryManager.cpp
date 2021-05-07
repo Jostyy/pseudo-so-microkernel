@@ -38,15 +38,12 @@ void MemoryManager::PaginateMemoryFIFO()
 void MemoryManager::PaginateMemorySC()
 {
 
-	
-	int pagefault = 0;
+	int aux, index, countR = 0, pagefault = 0;
 	int max = std::atoi(data.at(0).c_str());
-	int aux;
+
 	std::vector<int> mem(max, 0);
 	std::vector<frame> queue;
-	int index;
 
-	
 	for (int i = 1; i < data.size(); i++)									//Percorre as entradas do arquivo
 	{
 		aux = std::atoi(data.at(i).c_str());
@@ -54,18 +51,11 @@ void MemoryManager::PaginateMemorySC()
 			[aux](const frame& f) { return f.page == aux; });
 		const auto r = std::find_if(queue.begin(), queue.end(),				//Lambda gera Iterador para achar na fila uma página em que bitR == false
 			[aux](const frame& f) { return f.bitR == false; });
-		index = r - queue.begin() - 1;
+		index = r - queue.begin() - 1;										//Posição em que bitR == false
 
 		if ((std::find(mem.begin(), mem.end(), aux)) == mem.end())			//Página não está em memória
 		{
-			if (p != queue.end())											//Página está na fila
-			{
-				if (queue.at(index).countR++ == 3)							//Incrementa contador de referência e checa
-				{
-					queue.at(index).bitR = false;							//Se for igual a 3 zera bit R
-				}
-			}
-			else
+			if (p == queue.end())											//Página não está na fila
 			{
 				if (queue.size() == max)									//Checa se fila preenchida
 				{
@@ -76,7 +66,7 @@ void MemoryManager::PaginateMemorySC()
 						if (it->bitR == true)								//Checa se página foi referenciada
 						{
 
-							frame f{ it->page, false, (it->countR) };		//Cópia da página
+							frame f{ it->page, false };						//Cópia da página
 							queue.erase(it);								//Remove página da fila
 							queue.push_back(f);								//joga pro final da lista com bit R zerado
 						}
@@ -86,7 +76,7 @@ void MemoryManager::PaginateMemorySC()
 								mem.begin(), std::find(mem.begin(),			
 									mem.end(), it->page))) = aux;			//Coloca nova página no lugar
 							queue.erase(queue.begin());						//Remove página antiga da fila
-							frame f{ aux, true, 1 };
+							frame f{ aux, true };
 							queue.push_back(f);								//Coloca página nova no final da fila
 							break;
 						}
@@ -94,27 +84,28 @@ void MemoryManager::PaginateMemorySC()
 				}
 				else														//Fila ainda não preenchida
 				{				
-					frame f{ std::atoi(data.at(i).c_str()), true};			
+					frame f{ aux, true};			
 					queue.push_back(f);										//Joga página pro final da fila
 					mem[queue.size() - 1] = aux;							//coloca página na memória
 				}
 			}
+			
 			pagefault++;													//Ocorreu falta de página
 		}
 		else																//Página em Memória
 		{
-			if (p != queue.end())											//Página está na fila
+			if (p == queue.end())											//Página não está na fila
 			{
-				if (queue.at(p - queue.begin()).countR++ == 3)				//Incrementa contador de referência e checa
-				{
-					queue.at(p - queue.begin()).bitR = false;				//Se for igual a 3 zera bit R
-				}
-			}
-			else															//Página não está na fila
-			{
-				frame f{ std::atoi(data.at(i).c_str()), true, 1 };			
+				frame f{ aux, true };			
 				queue.push_back(f);											//Coloca página no final da fila
 			}
+		}
+
+		if (++countR == 3)													//Incrementa contador de referências e checa
+		{
+			countR = 0;
+			for(int j = 0; j < queue.size(); j++)
+				queue.at(j).bitR = false;									//Se for igual a 3 zera bit R
 		}
 	}
 	std::cout << "SC " << pagefault << std::endl;
