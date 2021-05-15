@@ -38,74 +38,56 @@ void MemoryManager::PaginateMemoryFIFO()
 void MemoryManager::PaginateMemorySC()
 {
 
-	int aux, index, countR = 0, pagefault = 0;
+	int aux, index, countR = 0, pagefault = 0, pointer = 0;
 	int max = std::atoi(data.at(0).c_str());
 
 	std::vector<int> mem(max, 0);
-	std::vector<frame> queue;
+	std::vector<frame> bitRvector;
+
 
 	for (int i = 1; i < data.size(); i++)									//Percorre as entradas do arquivo
 	{
 		aux = std::atoi(data.at(i).c_str());
-		const auto p = std::find_if(queue.begin(), queue.end(),				//Lambda gera Iterador para achar na fila uma página em que page == aux
+		const auto p = std::find_if(bitRvector.begin(), bitRvector.end(),	//Lambda gera Iterador para achar na fila uma página em que page == aux
 			[aux](const frame& f) { return f.page == aux; });
-		const auto r = std::find_if(queue.begin(), queue.end(),				//Lambda gera Iterador para achar na fila uma página em que bitR == false
-			[aux](const frame& f) { return f.bitR == false; });
-		index = r - queue.begin() - 1;										//Posição em que bitR == false
 
 		if ((std::find(mem.begin(), mem.end(), aux)) == mem.end())			//Página não está em memória
 		{
-			if (p == queue.end())											//Página não está na fila
-			{
-				if (queue.size() == max)									//Checa se fila preenchida
-				{
-					
-					for (int j = 0; j <= max; j++)							//Percorre fila
-					{
-						auto it = queue.begin();							//Ponteiro para o inicio da fila
-						if (it->bitR == true)								//Checa se página foi referenciada
-						{
-
-							frame f{ it->page, false };						//Cópia da página
-							queue.erase(it);								//Remove página da fila
-							queue.push_back(f);								//joga pro final da lista com bit R zerado
-						}
-						else												//Página não foi referenciada
-						{
-							mem.at(std::distance(							//Procura posição da página antiga na memória
-								mem.begin(), std::find(mem.begin(),			
-									mem.end(), it->page))) = aux;			//Coloca nova página no lugar
-							queue.erase(queue.begin());						//Remove página antiga da fila
-							frame f{ aux, true };
-							queue.push_back(f);								//Coloca página nova no final da fila
-							break;
-						}
-					}		
-				}
-				else														//Fila ainda não preenchida
-				{				
-					frame f{ aux, true};			
-					queue.push_back(f);										//Joga página pro final da fila
-					mem[queue.size() - 1] = aux;							//coloca página na memória
-				}
+			if (bitRvector.size() == max)									//Checa se fila preenchida
+			{	
+				while(bitRvector.at(pointer).bitR == true){					//Checa se página foi referenciada
+					bitRvector.at(pointer).bitR = false;
+					pointer++;
+					pointer = pointer % max;
+				}															//Chega a uma página não referenciada
+					mem.at(pointer) = aux;									//Coloca nova página no lugar
+					bitRvector.at(pointer).bitR = true;
+					bitRvector.at(pointer).page = aux;
+			}
+			else															//Fila ainda não preenchida
+			{				
+				frame f{ aux, true};			
+				bitRvector.push_back(f);									//Joga página pro final da fila
+				mem.at(pointer) = aux;										//coloca página na memória
 			}
 			
 			pagefault++;													//Ocorreu falta de página
+			pointer++;
+			pointer = pointer % max;
 		}
 		else																//Página em Memória
 		{
-			if (p == queue.end())											//Página não está na fila
+			if (p->bitR == false)											//Se bitR for falso
 			{
-				frame f{ aux, true };			
-				queue.push_back(f);											//Coloca página no final da fila
+				p->bitR = true;
 			}
 		}
 
 		if (++countR == 3)													//Incrementa contador de referências e checa
 		{
 			countR = 0;
-			for(int j = 0; j < queue.size(); j++)
-				queue.at(j).bitR = false;									//Se for igual a 3 zera bit R
+			for(int j = 0; j < bitRvector.size(); j++)
+				bitRvector.at(j).bitR = false;								//Se for igual a 3 zera bit R de todos da fila
 		}
 	}
 	std::cout << "SC " << pagefault << std::endl;
