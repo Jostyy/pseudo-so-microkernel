@@ -22,7 +22,7 @@ void MemoryManager::PaginateMemoryFIFO()
 	int fifo = 0, pagefault = 0;
 	int aux = std::atoi(data.at(0).c_str());
 
-	std::vector<int> frames(aux, 0);
+	std::vector<int> frames(aux, -1);
 
 	for (int i = 1; i<data.size(); i++)										//Percorre as entradas do arquivo
 	{																		//Procura se página está nos frames
@@ -41,7 +41,7 @@ void MemoryManager::PaginateMemorySC()
 	int aux, index, countR = 0, pagefault = 0, pointer = 0;
 	int max = std::atoi(data.at(0).c_str());
 
-	std::vector<int> mem(max, 0);
+	std::vector<int> mem(max, -1);
 	std::vector<frame> bitRvector;
 
 
@@ -99,7 +99,7 @@ void MemoryManager::PaginateMemoryLRU()
 	int pagefault = 0;
 	int max = std::atoi(data.at(0).c_str());
 	int aux;
-	std::vector<int> mem(max, 0);
+	std::vector<int> mem(max, -1);
 	std::vector<int> queue;
 
 	for (int i = 1; i < data.size(); i++)									//Percorre as entradas do arquivo
